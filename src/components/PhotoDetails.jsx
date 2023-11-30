@@ -2,7 +2,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { getPhotoById } from './api';
+import { getPhotoById } from '../api';
 
 const PhotoDetails = () => {
   const { photoId } = useParams();

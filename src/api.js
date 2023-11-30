@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 const API_BASE_URL = 'http://16.171.239.100:3000/';
 
 export const getPhotos = async () => {
-  const response = await fetch(`${API_BASE_URL}/photos`);
+  const response = await fetch(`${API_BASE_URL}photos`);
   const data = await response.json();
   return data;
 };
