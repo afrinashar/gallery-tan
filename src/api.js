@@ -10,9 +10,13 @@ export const getPhotos = async () => {
 };
 
 export const getPhotoById = async (photoId) => {
-  const response = await fetch(`${API_BASE_URL}/photos/${photoId}`);
+  const response = await fetch(`${API_BASE_URL}photos/${photoId}`);
   const data = await response.json();
   return data;
 };
-
+export const createPhoto = async (photoId) => {
+  const response = await fetch(`${API_BASE_URL}photos/`,photoId);
+  const data = await response.json();
+  return data;
+};
 // Add more API functions for create, update, and delete if needed

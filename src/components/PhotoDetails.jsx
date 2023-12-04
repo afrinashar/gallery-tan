@@ -3,8 +3,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { getPhotoById } from '../api';
-
-const PhotoDetails = () => {
+import { useState } from 'react';
+import { Modal,Button,DropdownButton } from 'react-bootstrap';
+//import { CiBoxList } from "react-icons/ci";
+const PhotoDetails = (ids) => {
+  const [show, setShow] = useState(false);
   const { photoId } = useParams();
   const { data: photo, isLoading, isError } = useQuery(['photo', photoId], () => getPhotoById(photoId));
 
@@ -15,12 +18,33 @@ const PhotoDetails = () => {
   if (isError) {
     return <div>Error fetching photo details</div>;
   }
-
+console.log(ids,"dsatsa");
+const handleClose = () => setShow(false);
   return (
     <div>
-      <h2>{photo.title}</h2>
-      <img src={photo.imageUrl} alt={photo.title} />
-      <p>{photo.description}</p>
+      <Modal show={show} onHide={handleClose} animation={true}>
+        <Modal.Header closeButton>
+         
+          <Modal.Title> {photoId.name} </Modal.Title>
+        </Modal.Header>
+        <Modal.Body> <Image    src={photoId.imageUrl} fluid /> </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="success" onClick={() => handleDownload(photo.imageUrl, photo.title)}>
+            Download
+          </Button>
+          
+              <DropdownButton icon={<CiBoxList />}  >
+
+      <Dropdown.Item  >    <Link to={`/update/${photo._id}`}>Update</Link> </Dropdown.Item>
+      <Dropdown.Item className='bg-danger text-white b-2' href="/delete:id">Delete</Dropdown.Item>
+  
+    </DropdownButton>
+        </Modal.Footer>
+      </Modal>
+ 
     </div>
   );
 };
