@@ -6,7 +6,7 @@ import { getPhotoById } from '../api';
 import { useState } from 'react';
 import { Modal,Button,DropdownButton } from 'react-bootstrap';
 //import { CiBoxList } from "react-icons/ci";
-const PhotoDetails = (ids) => {
+const PhotoDetails = () => {
   const [show, setShow] = useState(false);
   const { photoId } = useParams();
   const { data: photo, isLoading, isError } = useQuery(['photo', photoId], () => getPhotoById(photoId));
@@ -18,10 +18,12 @@ const PhotoDetails = (ids) => {
   if (isError) {
     return <div>Error fetching photo details</div>;
   }
-console.log(ids,"dsatsa");
+ // console.log(edit,"edit")
+//console.log(ids,"dsatsa");
 const handleClose = () => setShow(false);
   return (
     <div>
+      <h1>gy</h1>
       <Modal show={show} onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
          

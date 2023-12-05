@@ -21,7 +21,7 @@ const CreatePhoto = () => {
   const [photoData, setPhotoData] = useState({
     name: '',
     description: '',
-    imageUrl: null,
+    imageFile: null,
   });
 
   const handleCreate = async (e) => {
@@ -33,7 +33,7 @@ const CreatePhoto = () => {
     setPhotoData({
       name: '',
       description: '',
-      imageUrl: null,
+      imageFile: null,
     });
     setShowModal(false);
   };
@@ -42,7 +42,7 @@ const CreatePhoto = () => {
     const { name, value, files } = e.target;
     setPhotoData((prevData) => ({
       ...prevData,
-      [name]: name === 'imageUrl' ? files[0] : value,
+      [name]: name === 'imageFile' ? files[0] : value,
     }));
   };
 
@@ -83,12 +83,12 @@ const CreatePhoto = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="imageUrl">Upload Image:</label>
+              <label htmlFor="imageFile">Upload Image:</label>
               <input
                 type="file"
                 className="form-control"
-                id="imageUrl"
-                name="imageUrl"
+                id="imageFile"
+                name="imageFile"
                 accept="image/*"
                 onChange={handleChange}
                 required

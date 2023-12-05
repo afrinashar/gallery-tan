@@ -14,13 +14,13 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <Routes>
         
-          <Route path="/photos/create"element={<PhotoDetails/> } />  
-  
+           
           <Route path="/photos" element={<PhotoList/>} />
-          <Route path="/photos/:id" exact element={<PhotoDetails/>} />
+          <Route path="/photos/create" exact element={<CreatePhoto/>} />
       </Routes>
     </QueryClientProvider>
   </>);
 };
 
 export default App;
+ 
