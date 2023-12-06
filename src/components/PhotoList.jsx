@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import { getPhotos } from '../api';
 import PhotoDetails from './PhotoDetails';
+import Spinner from '../modules/spinner';
 import {Button,Card, Modal,Form,Row,Col,Container,DropdownButton,Dropdown,Image} from 'react-bootstrap';
 import DeletePhoto from './DeletePhoto';
 //import { CiBoxList } from "react-icons/ci";
@@ -13,13 +14,7 @@ const PhotoList = () => {
   const { data: photos, isLoading, isError,isFetching } = useQuery(['photos', searchTerm], () => getPhotos(searchTerm), {staleTime:3000});
 
   if (isLoading || isFetching) {
-    return (
-      <div className="text-center">
-        <div className="spinner-border" role="status">
-           
-        </div>
-      </div>
-    );
+    return <><Spinner></Spinner></>
   }
 
   if (isError) {
@@ -98,7 +93,7 @@ const PhotoList = () => {
       </div>
     </div>
  
-    <Modal show={show} onHide={handleClose} animation={true}>
+    <Modal show={show} key={edit._id} onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
          
           <Modal.Title> {edit.name} </Modal.Title>
@@ -114,12 +109,11 @@ const PhotoList = () => {
           
               <DropdownButton    >
 
-      <Dropdown.Item  >    <Link to={`/update/${edit._id}`}>Update</Link> </Dropdown.Item>
+      <Dropdown.Item  >    <Link to={`/photos/update/${edit._id}`}>Update</Link> </Dropdown.Item>
       <Dropdown.Item className='bg-danger text-white b-2'  ><Link to={`/photos/delete/${edit._id}`}>Delete</Link></Dropdown.Item>
   
     </DropdownButton>
         </Modal.Footer>
-        <DeletePhoto photoId={edit._id} />
       </Modal>
     </>);
 };

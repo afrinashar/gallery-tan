@@ -2,11 +2,12 @@
 import React from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { deletePhoto } from '../api';
+import { useParams } from 'react-router-dom';
 
 const DeletePhoto = ({}) => {
   const queryClient = useQueryClient();
-
-  const mutation = useMutation(() => deletePhoto(), {
+  const { id } = useParams();
+  const mutation = useMutation(() => deletePhoto(id), {
     onSuccess: () => {
       queryClient.invalidateQueries('photos');
     },

@@ -25,8 +25,9 @@ const App = () => {
   return (<> 
     <QueryClientProvider client={queryClient}>
       <Routes>
+      <Route path="/photos/update/:id" element={<EditPhoto/>} />
       <Route path="/photos/delete/:id" element={<DeletePhoto/>} />
-      <Route path="/update/:id" element={<EditPhoto/>} />
+      <Route path="/photos/:id" element={<PhotoDetails/>} />
            
           <Route path="/photos" element={<PhotoList/>} />
           <Route path="/photos/create" exact element={<CreatePhoto/>} />

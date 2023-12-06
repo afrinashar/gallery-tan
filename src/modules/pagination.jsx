@@ -1,59 +1,55 @@
-import React, { useState } from "react";
-import { useQuery } from "react-query";
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import axios from 'axios'
 
-import UserTable from "../components/UserTable";
-
-const pageLimit = 15;
-
-const fetchUsers = async (page = 1) => {
-  const response = await fetch(
-    `http://16.171.239.100:3000/photos?page=${page}&_limit=${limit}`
-  );
-  return response.json();
-};
-
-function PaginatedQuery() {
-  const [page, setPage] = useState(1);
-  const { data, isLoading, isError, status, error } = useQuery(
-    ["paginatedUsers", page],
-    () => fetchUsers(page),
-    {
-      keepPreviousData: true,
-    }
-  );
-
-  const prevPage = () => {
-    if (page > 1) setPage(page - 1);
-  };
-
-  const nextPage = () => {
-    setPage(page + 1);
-  };
-
-  return (
-    <div>
-      <h2>Paginated Query Example</h2>
-      <div>
-        {isError && <div>{error.message}</div>}
-
-        {isLoading && <div>Loading...</div>}
-
-        {status === "success" && <UserTable users={data} />}
-      </div>
-
-      {/* start of pagination buttons */}
-      <div>
-        <button onClick={prevPage} disabled={page <= 1}>
-          Prev
-        </button>
-        <span>Page: {page}</span>
-        <button onClick={nextPage} disabled={data && data.length < pageLimit}>
-          Next
-        </button>
-      </div>
-      {/* end of pagination buttons */}
-    </div>
-  );
+const fetchPhoto = pageNumber => {
+  return axios.get(`http://16.171.239.100:3000/photos?limit=2&page=${pageNumber}`)
 }
 
-export default PaginatedQuery;
+export const PaginatedQueriesPage = () => {
+  const [pageNumber, setPageNumber] = useState(1)
+  const { isLoading, isError, error, data, isFetching } = useQuery(
+    ['photo', pageNumber],
+    () => fetchPhoto(pageNumber),
+    {
+      keepPreviousData: true
+    }
+  )
+
+  if (isLoading) {
+    return <h2>Loading...</h2>
+  }
+
+  if (isError) {
+    return <h2>{error.message}</h2>
+  }
+
+  return (
+    <>
+      <div>
+        {data?.data.map(color => {
+          return (
+            <div key={color.id}>
+              <h2>
+                {color.id}. {color.label}
+              </h2>
+            </div>
+          )
+        })}
+      </div>
+      <div>
+        <button
+          onClick={() => setPageNumber(page => page - 1)}
+          disabled={pageNumber === 1}>
+          Prev Page
+        </button>
+        <button
+          onClick={() => setPageNumber(page => page + 1)}
+          disabled={pageNumber === 4}>
+          Next Page
+        </button>
+      </div>
+      {isFetching && 'Loading'}
+    </>
+  )
+}

@@ -34,7 +34,7 @@ export const getPhotos = async () => {
   return response.data;
 };
 export const getPhotoById = async (photoId) => {
-    const response = await api.get(`/photos/655321d281aa2941d171640f`);
+    const response = await api.get(`/photos/${photoId}`);
     return response.data;
   };
 export const createPhoto = async (photoData) => {

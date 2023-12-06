@@ -2,12 +2,14 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { getPhotoById } from '../api';
+import { useParams } from 'react-router-dom';
 
-const EditPhoto = ({ photoId }) => {
-  const { data: photo, isLoading, isError } = useQuery(['photo', photoId], () => getPhotoById(photoId));
+const EditPhoto = ({ }) => {
+  const { id } = useParams();
+  const { data: photo, isLoading, isError } = useQuery(['photo', id], () => getPhotoById(id));
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; 
   }
 
   if (isError) {

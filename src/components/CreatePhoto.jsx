@@ -5,7 +5,7 @@ import { createPhoto } from '../api';
 import { useNavigate } from 'react-router-dom';
 
 const CreatePhoto = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const navigate = useNavigate();
 
   const mutation = useMutation(createPhoto, {
@@ -48,20 +48,18 @@ const CreatePhoto = () => {
 
   return (
     <div>
-      <Button variant="primary" onClick={() => setShowModal(true)}>
-        Open Modal
-      </Button>
+    
       <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header>
-          <Modal.Title>Create Profile</Modal.Title>
-          <button type="button" className="close" onClick={handleClose} aria-label="Close">
+        <div  className= "modal-header bg-secondary" >
+          <h3 className=' modal-title  text-white m-3 '>Create Profile</h3>
+          <button type="button" className="close p-2 m-2" onClick={handleClose} aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </Modal.Header>
+        </div >
         <form onSubmit={handleCreate}>
           <Modal.Body>
             <div className="form-group">
-              <label htmlFor="name">Name:</label>
+              <label htmlFor="name ">Name:</label>
               <input
                 type="text" 
                 className="form-control"
@@ -86,7 +84,7 @@ const CreatePhoto = () => {
               <label htmlFor="imageFile">Upload Image:</label>
               <input
                 type="file"
-                className="form-control"
+                className="form-control bg-primary"
                 id="imageFile"
                 name="imageFile"
                 accept="image/*"
