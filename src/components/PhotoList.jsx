@@ -4,14 +4,15 @@ import { Link } from 'react-router-dom';
 import { getPhotos } from '../api';
 import PhotoDetails from './PhotoDetails';
 import {Button,Card, Modal,Form,Row,Col,Container,DropdownButton,Dropdown,Image} from 'react-bootstrap';
+import DeletePhoto from './DeletePhoto';
 //import { CiBoxList } from "react-icons/ci";
 const PhotoList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [edit, setEdit] = useState("");
   const [show, setShow] = useState(false);
-  const { data: photos, isLoading, isError } = useQuery(['photos', searchTerm], () => getPhotos(searchTerm));
+  const { data: photos, isLoading, isError,isFetching } = useQuery(['photos', searchTerm], () => getPhotos(searchTerm), {staleTime:3000});
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <div className="text-center">
         <div className="spinner-border" role="status">
@@ -70,6 +71,7 @@ const PhotoList = () => {
     <Link to="/photos/create" className='btn btn-  '>Add Photo</Link><h1 className='text-white'>Photo Gallery</h1>
     <form className="d-flex input-group w-auto">
     <input
+   
      className="form-control rounded"
         type="text"
         placeholder="Search photos..."
@@ -113,12 +115,14 @@ const PhotoList = () => {
               <DropdownButton    >
 
       <Dropdown.Item  >    <Link to={`/update/${edit._id}`}>Update</Link> </Dropdown.Item>
-      <Dropdown.Item className='bg-danger text-white b-2' href="/delete:id">Delete</Dropdown.Item>
+      <Dropdown.Item className='bg-danger text-white b-2'  ><Link to={`/photos/delete/${edit._id}`}>Delete</Link></Dropdown.Item>
   
     </DropdownButton>
         </Modal.Footer>
+        <DeletePhoto photoId={edit._id} />
       </Modal>
     </>);
 };
+
 
 export default PhotoList;

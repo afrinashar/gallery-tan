@@ -1,17 +1,17 @@
 // DeletePhoto.js
 import React from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { deletePhoto } from './api';
+import { deletePhoto } from '../api';
 
-const DeletePhoto = ({ photoId }) => {
+const DeletePhoto = ({}) => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(() => deletePhoto(photoId), {
+  const mutation = useMutation(() => deletePhoto(), {
     onSuccess: () => {
       queryClient.invalidateQueries('photos');
     },
   });
-
+//console.log(photoId,"iddd");
   const handleDelete = () => {
     mutation.mutate();
   };
