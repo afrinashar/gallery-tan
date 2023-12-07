@@ -11,7 +11,7 @@ const CreatePhoto = () => {
   const mutation = useMutation(createPhoto, {
     onSuccess: () => {
       console.log('Image created successfully');
-      navigate('/');
+      navigate('/photos');
     },
     onError: (error) => {
       console.error('Error creating image:', error);
@@ -21,28 +21,30 @@ const CreatePhoto = () => {
   const [photoData, setPhotoData] = useState({
     name: '',
     description: '',
-    imageFile: null,
+    imageUrl: null,
   });
 
   const handleCreate = async (e) => {
     e.preventDefault();
     mutation.mutate(photoData);
+    console.log(photoData,"photooo");
   };
 
   const handleClose = () => {
     setPhotoData({
       name: '',
       description: '',
-      imageFile: null,
+      imageUrl: null,
     });
     setShowModal(false);
+    navigate('/photos');
   };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setPhotoData((prevData) => ({
       ...prevData,
-      [name]: name === 'imageFile' ? files[0] : value,
+      [name]: name === 'imageUrl' ? files[0] : value,
     }));
   };
 
@@ -50,8 +52,8 @@ const CreatePhoto = () => {
     <div>
     
       <Modal show={showModal} onHide={handleClose}>
-        <div  className= "modal-header bg-secondary" >
-          <h3 className=' modal-title  text-white m-3 '>Create Profile</h3>
+        <div  className= "modal-header  " >
+          <h3 className=' modal-title bg-primary text-white m-3 '>Create Profile</h3>
           <button type="button" className="close p-2 m-2" onClick={handleClose} aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -81,12 +83,12 @@ const CreatePhoto = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="imageFile">Upload Image:</label>
+              <label htmlFor="imageUrl">Upload Image:</label>
               <input
                 type="file"
                 className="form-control bg-primary"
-                id="imageFile"
-                name="imageFile"
+                id="imageUrl"
+                name="imageUrl"
                 accept="image/*"
                 onChange={handleChange}
                 required

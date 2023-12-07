@@ -5,9 +5,10 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import PhotoList from './components/PhotoList';
 import PhotoDetails from './components/PhotoDetails';
 import './css/custom.css';
+import PaginatedQueriesPage from './modules/pagination'
 import CreatePhoto from './components/CreatePhoto';
 import DeletePhoto from './components/DeletePhoto';
-import EditPhoto from './components/EditPhoto';
+import UpdatePhoto from './components/EditPhoto';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -25,9 +26,9 @@ const App = () => {
   return (<> 
     <QueryClientProvider client={queryClient}>
       <Routes>
-      <Route path="/photos/update/:id" element={<EditPhoto/>} />
+      <Route path="/photos/update/:id" element={<UpdatePhoto/>} />
       <Route path="/photos/delete/:id" element={<DeletePhoto/>} />
-      <Route path="/photos/:id" element={<PhotoDetails/>} />
+      <Route path="/photos/page" element={<PaginatedQueriesPage/>} />
            
           <Route path="/photos" element={<PhotoList/>} />
           <Route path="/photos/create" exact element={<CreatePhoto/>} />

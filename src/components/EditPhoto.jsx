@@ -1,29 +1,119 @@
-// EditPhoto.js
-import React from 'react';
-import { useQuery } from 'react-query';
-import { getPhotoById } from '../api';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import { useMutation, useQuery } from 'react-query';
+import { getPhotos, updatePhoto } from '../api'; // Assuming you have an API function to get and update a photo
+import { useNavigate } from 'react-router-dom';
 
-const EditPhoto = ({ }) => {
-  const { id } = useParams();
-  const { data: photo, isLoading, isError } = useQuery(['photo', id], () => getPhotoById(id));
+const UpdatePhoto = ({ photoId }) => {
+  const [showModal, setShowModal] = useState(true);
+  const navigate = useNavigate();
 
-  if (isLoading) {
-    return <div>Loading...</div>; 
+  const { data: existingPhoto, isLoading: photoLoading } = useQuery(
+    ['getPhoto', photoId],
+    () => getPhotos(photoId)
+  );
+
+  const mutation = useMutation(updatePhoto, {
+    onSuccess: () => {
+      console.log('Image updated successfully');
+      setShowModal(false);
+      navigate('/photos');
+    },
+    onError: (error) => {
+      console.error('Error updating image:', error);
+    },
+  });
+
+  const [photoData, setPhotoData] = useState({
+    name: '',
+    description: '',
+    imageUrl: null,
+  });
+
+  useEffect(() => {
+    if (existingPhoto) {
+      setPhotoData({
+        name: existingPhoto.name,
+        description: existingPhoto.description,
+        // You might want to handle the image separately depending on your use case
+      });
+    }
+  }, [existingPhoto]);
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    mutation.mutate({ photoId, data: photoData });
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    navigate('/');
+  };
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setPhotoData((prevData) => ({
+      ...prevData,
+      [name]: name === 'imageUrl' ? files[0] : value,
+    }));
+  };
+
+  if (photoLoading) {
+    return <p>Loading...</p>;
   }
-
-  if (isError) {
-    return <div>Error fetching photo details</div>;
-  }
-
-  // Add your edit form logic here
 
   return (
     <div>
-      <h2>Edit Photo</h2>
-      {/* Your edit form */}
+      <Modal show={showModal} onHide={handleClose}>
+        <div className="modal-header bg-secondary">
+          <h3 className="modal-title text-white m-3">Edit Profile</h3>
+          <button
+            type="button"
+            className="close p-2 m-2"
+            onClick={handleClose}
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form onSubmit={handleUpdate}>
+          <Modal.Body>
+            <div className="form-group">
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                name="name"
+                value={photoData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Description:</label>
+              <textarea
+                className="form-control"
+                id="description"
+                name="description"
+                value={photoData.description}
+                onChange={handleChange}
+              />
+            </div>
+            {/* You might want to handle the image separately based on your use case */}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button type="submit" variant="primary">
+              Update Image
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
     </div>
   );
 };
 
-export default EditPhoto;
+export default UpdatePhoto;

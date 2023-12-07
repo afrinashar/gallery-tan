@@ -6,7 +6,8 @@ import PhotoDetails from './PhotoDetails';
 import Spinner from '../modules/spinner';
 import {Button,Card, Modal,Form,Row,Col,Container,DropdownButton,Dropdown,Image} from 'react-bootstrap';
 import DeletePhoto from './DeletePhoto';
-//import { CiBoxList } from "react-icons/ci";
+import { FaArrowAltCircleDown } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
 const PhotoList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [edit, setEdit] = useState("");
@@ -61,58 +62,62 @@ const PhotoList = () => {
 
       {/* Search bar */}
      
-<nav className="navbar navbar-primary-opacity-50 top-0 bg-body-primary">
-  <div className="container-fluid top-0  position-sticky">
-    <Link to="/photos/create" className='btn btn-  '>Add Photo</Link><h1 className='text-white'>Photo Gallery</h1>
+<nav className="navbar   top-0 navbar-light sticky-top bg-primary"  >
+  <div className="container-fluid bg-primary top-0  sticky-top">
+    <Link to="/photos/create" className='btn btn-outline-light  '>Add Photo</Link><h1 className='text-white'>Photo Gallery</h1>
     <form className="d-flex input-group w-auto">
     <input
    
-     className="form-control rounded"
+     className="form-control   rounded"
         type="text"
         placeholder="Search photos..."
         value={searchTerm}
         onChange={handleSearch}
       />
-      <span className="input-group-text border-0" id="search-addon">
-        <i className="fas fa-search"></i>
-      </span>
+      
     </form>
   </div>
 </nav>
       <div className="row p-5">
         {filteredPhotos.map((photo) => (
-          <div className='col-lg-4  col-sm-12 mb-1 mb-lg-0 mt-3' key={photo._id}>
+          <div className='col-lg-4  mh-50 col-sm-12      ' key={photo._id}>
             <Link  className='Link'  onClick={() => handleItemClick(photo)}  >
-              <div className='card mh-30 p-2'>
-                <img src={photo.imageUrl} alt={photo.title} className="w-100  border border-dark ml-1 shadow-1-strong rounded mb-4" />
-                <div className='card-title'>{photo.name}</div>
+              <div className='card mh-30 p-3   shadow p-3 mb-5 bg-body rounded'>
+                <img src={photo.imageUrl} alt={photo.title} className="mw-100 hover hover-shadow   border-dark ml-1 shadow-1-strong rounded mb-4" />
+                <div className='card-title '>{photo.name}</div>
               </div>
             </Link>
           </div>
         ))}
       </div>
     </div>
- 
-    <Modal show={show} key={edit._id} onHide={handleClose} animation={true}>
+    
+    <a href="mailto:afrinashar1@gmail.com">contact webmaster</a>
+    <Modal show={show} key={edit._id} className='shadow p-3 mb-5 bg-body rounded' onHide={handleClose} animation={true}>
         <Modal.Header closeButton>
          
-          <Modal.Title> {edit.name} </Modal.Title>
+          <Modal.Title className='text-white'> {edit.name} </Modal.Title>
         </Modal.Header>
-        <Modal.Body> <Image    src={edit.imageUrl} fluid /> </Modal.Body>
+        <Modal.Body> <div class="bg-image hover-zoom"><Image  className='w-100'   src={edit.imageUrl}  /> </div></Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="success" onClick={() => handleDownload(edit.imageUrl, edit.title)}>
-            Download
-          </Button>
           
-              <DropdownButton    >
+          <FaArrowAltCircleDown variant="success"  type="button" onClick={() => handleDownload(edit.imageUrl, edit.title)} ></FaArrowAltCircleDown> 
+        
+           <a href={edit.imageUrl} download="my_painting.png">   <FaArrowAltCircleDown variant="success"  className='bg-primary' type="button" onClick={() => handleDownload(edit.imageUrl, edit.title)} /> </a>
+                <DropdownButton  className=''   >
 
-      <Dropdown.Item  >    <Link to={`/photos/update/${edit._id}`}>Update</Link> </Dropdown.Item>
-      <Dropdown.Item className='bg-danger text-white b-2'  ><Link to={`/photos/delete/${edit._id}`}>Delete</Link></Dropdown.Item>
+      <Dropdown.Item   className='bg-primary text-light  ' >    <Link to={`/photos/update/${edit._id}`}>Update</Link> </Dropdown.Item>
+      <Dropdown.Item className='bg-primary text-light '  ><Link to={`/photos/delete/${edit._id}`}>Delete</Link></Dropdown.Item>
   
     </DropdownButton>
+    <ul class="dropdown-menu" aria-labelledby="dLabel">
+      <li><a href="#">Item 1</a></li>
+      <li><a href="#">Item 2</a></li>
+    </ul>
+    <BsThreeDotsVertical />
         </Modal.Footer>
       </Modal>
     </>);

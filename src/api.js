@@ -1,7 +1,7 @@
 // api.js
 import { useQuery } from 'react-query';
 
-const API_BASE_URL = 'http://16.171.239.100:3000/';
+//const API_BASE_URL = 'http://16.171.239.100:3000/';
 
 // export const getPhotos = async () => {
 //   const response = await fetch(`${API_BASE_URL}photos`);
@@ -22,7 +22,7 @@ const API_BASE_URL = 'http://16.171.239.100:3000/';
 // // Add more API functions for create, update, and delete if needed
 // import axios from 'axios';
 
-// const API_BASE_URL = 'http://16.171.239.100:3000/';
+  const API_BASE_URL = 'http://localhost:3002/';
 // api.js
 import axios from 'axios';
 const api = axios.create({

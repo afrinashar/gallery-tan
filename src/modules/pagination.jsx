@@ -8,7 +8,7 @@ const fetchPhoto = pageNumber => {
 
 export const PaginatedQueriesPage = () => {
   const [pageNumber, setPageNumber] = useState(1)
-  const { isLoading, isError, error, data, isFetching } = useQuery(
+  const { data: photos,isLoading, isError, error,  isFetching } = useQuery(
     ['photo', pageNumber],
     () => fetchPhoto(pageNumber),
     {
@@ -23,15 +23,15 @@ export const PaginatedQueriesPage = () => {
   if (isError) {
     return <h2>{error.message}</h2>
   }
-
+  console.log((photos),"photo");
   return (
     <>
       <div>
-        {data?.data.map(color => {
+        {photos?.photos.map(photo => {
           return (
-            <div key={color.id}>
+            <div key={photo.id}>
               <h2>
-                {color.id}. {color.label}
+                {photo.id}. {photo.label}
               </h2>
             </div>
           )
@@ -53,3 +53,4 @@ export const PaginatedQueriesPage = () => {
     </>
   )
 }
+export default PaginatedQueriesPage
