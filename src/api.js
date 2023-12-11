@@ -22,7 +22,7 @@ import { useQuery } from 'react-query';
 // // Add more API functions for create, update, and delete if needed
 // import axios from 'axios';
 
-  const API_BASE_URL = 'http://localhost:3002/';
+  const API_BASE_URL = 'http://localhost:3008/';
 // api.js
 import axios from 'axios';
 const api = axios.create({
@@ -34,6 +34,7 @@ export const getPhotos = async () => {
   return response.data;
 };
 export const getPhotoById = async (photoId) => {
+  console.log(photoId,"iddd");
     const response = await api.get(`/photos/${photoId}`);
     return response.data;
   };

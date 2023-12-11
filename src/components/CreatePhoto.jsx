@@ -10,44 +10,58 @@ const CreatePhoto = () => {
 
   const mutation = useMutation(createPhoto, {
     onSuccess: () => {
+      queryClient.invalidateQueries('photos');
       console.log('Image created successfully');
       navigate('/photos');
     },
     onError: (error) => {
-      console.error('Error creating image:', error);
+      console.error('Error creating image:', error.respose.data);
     },
   });
 
   const [photoData, setPhotoData] = useState({
     name: '',
     description: '',
-    imageUrl: null,
+    imageUrl: '',
   });
 
   const handleCreate = async (e) => {
     e.preventDefault();
     mutation.mutate(photoData);
-    console.log(photoData,"photooo");
+    console.log(photoData,(typeof(photoData.imageUrl.name)),(typeof(photoData.imageUrl)),"photooo");
   };
 
   const handleClose = () => {
     setPhotoData({
       name: '',
       description: '',
-      imageUrl: null,
+      imageUrl: {
+        name:""
+      },
     });
     setShowModal(false);
     navigate('/photos');
   };
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value} = e.target;
+   // console.log((e.target),"name:",name,"value:",value,files); 
     setPhotoData((prevData) => ({
       ...prevData,
-      [name]: name === 'imageUrl' ? files[0] : value,
-    }));
-  };
+      [name]: value,
 
+
+    }  
+    ));
+  };
+const handleChangePhoto=(e)=>{
+setPhotoData((prevData)=>({
+  ...prevData,
+  imageUrl:e.target.files[0]
+  
+}))
+console.log((e.target.files[0].name),"file");
+}
   return (
     <div>
     
@@ -90,7 +104,8 @@ const CreatePhoto = () => {
                 id="imageUrl"
                 name="imageUrl"
                 accept="image/*"
-                onChange={handleChange}
+                //value={photoData.imageUrl}
+                onChange={handleChangePhoto}
                 required
               />
             </div>

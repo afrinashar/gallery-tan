@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { useMutation, useQuery } from 'react-query';
-import { getPhotos, updatePhoto } from '../api'; // Assuming you have an API function to get and update a photo
+import { getPhotoById, updatePhoto } from '../api'; // Assuming you have an API function to get and update a photo
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-const UpdatePhoto = ({ photoId }) => {
+const UpdatePhoto = () => {
   const [showModal, setShowModal] = useState(true);
   const navigate = useNavigate();
-
+  const { id } = useParams()
   const { data: existingPhoto, isLoading: photoLoading } = useQuery(
-    ['getPhoto', photoId],
-    () => getPhotos(photoId)
+    ['getPhoto', id],
+    () => getPhotoById(id)
   );
 
-  const mutation = useMutation(updatePhoto, {
+  const mutation = useMutation(updatePhoto(id), {
     onSuccess: () => {
       console.log('Image updated successfully');
       setShowModal(false);
@@ -42,14 +43,14 @@ const UpdatePhoto = ({ photoId }) => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    mutation.mutate({ photoId, data: photoData });
+    mutation.mutate({ id, data: id });
   };
 
   const handleClose = () => {
     setShowModal(false);
     navigate('/');
   };
-
+  console.log(photoData,"ext",id);
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setPhotoData((prevData) => ({

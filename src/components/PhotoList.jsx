@@ -84,7 +84,7 @@ const PhotoList = () => {
             <Link  className='Link'  onClick={() => handleItemClick(photo)}  >
               <div className='card mh-30 p-3   shadow p-3 mb-5 bg-body rounded'>
                 <img src={photo.imageUrl} alt={photo.title} className="mw-100 hover hover-shadow   border-dark ml-1 shadow-1-strong rounded mb-4" />
-                <div className='card-title '>{photo.name}</div>
+                <div className='card-title '>{photo.name} {photo.size} {photo.lastModifiedDate}</div>
               </div>
             </Link>
           </div>
