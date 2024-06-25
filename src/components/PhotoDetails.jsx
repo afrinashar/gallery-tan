@@ -15,8 +15,8 @@ const PhotoDetails = ({queryKey}) => {
   const { data: photo, isLoading, isError } = useQuery(['photo', photoId], () => getPhotoById(photoId));
 
   if (isLoading) {
-    return <div class="spinner-border text-primary" role="status">
-  <h1 class="visually-hidden bg-secondary">Loading...</h1>
+    return <div className="spinner-border text-primary" role="status">
+  <h1 className="visually-hidden bg-secondary">Loading...</h1>
 </div>
   }
 

@@ -22,24 +22,34 @@ import { useQuery } from 'react-query';
 // // Add more API functions for create, update, and delete if needed
 // import axios from 'axios';
 
-  const API_BASE_URL = 'http://localhost:3008/';
+  const API_BASE_URL = 'https://photo-gallery-nxf3.onrender.com';
 // api.js
 import axios from 'axios';
 const api = axios.create({
   baseURL: API_BASE_URL,
 });
 
-export const getPhotos = async () => {
-  const response = await api.get('/photos');
-  return response.data;
+ 
+export const getPhotos = async (searchTerm = '', page = 1, limit = 10, sortBy = 'name', sortOrder = 'asc') => {
+  const { data } = await axios.get('https://photo-gallery-nxf3.onrender.com/photos', {
+    params: {
+      search: searchTerm,
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+    },
+  });
+  return data;
 };
+
 export const getPhotoById = async (photoId) => {
   console.log(photoId,"iddd");
     const response = await api.get(`/photos/${photoId}`);
     return response.data;
   };
 export const createPhoto = async (photoData) => {
-  const response = await api.post('/photos', photoData);
+  const response = await api.post('/add', photoData);
   return response.data;
 };
 

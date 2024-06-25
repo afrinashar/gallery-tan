@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import   { useState, useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { useMutation, useQuery } from 'react-query';
 import { getPhotoById, updatePhoto } from '../api'; // Assuming you have an API function to get and update a photo
@@ -48,7 +48,7 @@ const UpdatePhoto = () => {
 
   const handleClose = () => {
     setShowModal(false);
-    navigate('/');
+    navigate('/photos');
   };
   console.log(photoData,"ext",id);
   const handleChange = (e) => {
@@ -66,7 +66,7 @@ const UpdatePhoto = () => {
   return (
     <div>
       <Modal show={showModal} onHide={handleClose}>
-        <div className="modal-header bg-secondary">
+        <div className="modal-header bg-primary">
           <h3 className="modal-title text-white m-3">Edit Profile</h3>
           <button
             type="button"
